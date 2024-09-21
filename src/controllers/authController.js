@@ -5,21 +5,38 @@ const User = require("../models/userModel");
 const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
+    console.log(email);
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    console.log("existingUser", existingUser);
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ status: "400", message: "Email already in use" });
+    }
+
+    // Generate salt and hash the password
     const salt = await bcrypt.genSalt();
-    console.log(req);
-    console.log(salt);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log(hashedPassword);
+
+    // Create a new user object
     const user = {
       name,
       email,
       password: hashedPassword,
     };
+
+    // Save the new user to the database
     const addedUser = new User(user);
     await addedUser.save();
+
+    // Send a success response
     res.status(201).json({ status: "200", message: "Success" });
   } catch (err) {
-    res.status(500).json({ status: "400", error: err.message });
+    // Send an error response
+    res.status(500).json({ status: "500", error: err.message });
   }
 };
 
@@ -64,9 +81,7 @@ const register = async (req, res) => {
 // };
 
 const login = async (req, res) => {
-  console.log("----");
   const { email, password } = req.body;
-  console.log(email, password);
   let user = await User.findOne({ email: email });
   if (user == null) {
     return res.status(400).json({ status: "400", message: "User Not Found" });

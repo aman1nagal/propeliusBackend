@@ -61,8 +61,6 @@ const addSongToPlaylist = async (req, res) => {
       duration,
       genre,
     };
-    console.log(newSong);
-    console.log(playlist, "---");
 
     // Add the song to the playlist's songs array
     playlist.songs.push(newSong);

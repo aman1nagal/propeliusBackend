@@ -16,5 +16,5 @@ const userSchema = new mongoose.Schema({
   },
 });
 // create all the code for backend in node js and mongo db express js
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("Users", userSchema);
 module.exports = User;
