@@ -10,6 +10,8 @@ const router = express.Router();
 
 router.post("/login", authControllers.login);
 router.post("/register", authControllers.register);
+router.get("/getPlaylists", playlistController.getPlaylists);
+
 
 router.post(
   "/addPlayList",

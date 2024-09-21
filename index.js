@@ -7,7 +7,6 @@ require("dotenv").config();
 
 const router = require("./src/routes");
 
-
 const app = express();
 mongoose
   .connect(process.env.DB_STRING, {
