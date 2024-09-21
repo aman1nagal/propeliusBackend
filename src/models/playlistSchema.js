@@ -25,6 +25,7 @@ const playlistSchema = new mongoose.Schema(
       required: true,
     },
     description: { type: String },
+    
     songs: [songSchema], // Embed the songSchema instead of referencing
   },
   { timestamps: true }

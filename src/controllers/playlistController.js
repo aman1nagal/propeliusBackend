@@ -3,6 +3,7 @@ const Song = require("../models/songSchema");
 
 // Get all playlists for the logged-in user
 const getPlaylists = async (req, res) => {
+  console.log("--", req.user);
   const playlists = await Playlist.find({ user: req.user });
   res.json(playlists);
 };
