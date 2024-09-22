@@ -75,10 +75,12 @@ const addSongToPlaylist = async (req, res) => {
 // Update playlist
 const updatePlaylist = async (req, res) => {
   const { playlistId } = req.params;
+  // console.log(req.body, "----");
   const { name, description, songs } = req.body;
   try {
-    const playlist = await Playlist.findById({ _id: playlistId });
-    console.log(playlist, playlist.user.toString(), req.user, "playlist");
+    const playlist = await Playlist.findById(playlistId);
+    console.log(playlist, playlistId, "playlist");
+    // console.log(playlist, playlist.user.toString(), req.user, "playlist");
     if (playlist && playlist.user.toString() === req.user) {
       playlist.name = name || playlist.name;
       playlist.description = description || playlist.description;
@@ -89,7 +91,7 @@ const updatePlaylist = async (req, res) => {
       res.status(404).json({ message: "Playlist not found or unauthorized" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error0000" });
   }
 };
 

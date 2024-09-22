@@ -109,7 +109,6 @@ const login = async (req, res) => {
 const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
   if (token == null)
     return res.status(401).json({ status: "401", error: "Unauthorized" });
 
