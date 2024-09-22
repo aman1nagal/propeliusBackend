@@ -75,11 +75,11 @@ const addSongToPlaylist = async (req, res) => {
 
 // Update playlist
 const updatePlaylist = async (req, res) => {
-  const { id } = req.params;
+  const { playlistId } = req.params;
   const { name, description, songs } = req.body;
   try {
-    const playlist = await Playlist.findById(id);
-    if (playlist && playlist.user.toString() === req.user.id) {
+    const playlist = await Playlist.findById(playlistId);
+    if (playlist && playlist.user.toString() === req.user.playlistId) {
       playlist.name = name || playlist.name;
       playlist.description = description || playlist.description;
       playlist.songs = songs || playlist.songs;
@@ -95,10 +95,10 @@ const updatePlaylist = async (req, res) => {
 
 // Delete playlist
 const deletePlaylist = async (req, res) => {
-  const { id } = req.params;
+  const { playlistId } = req.params;
   try {
-    const playlist = await Playlist.findById(id);
-    if (playlist && playlist.user.toString() === req.user.id) {
+    const playlist = await Playlist.findById(playlistId);
+    if (playlist && playlist.user.toString() === req.user.playlistId) {
       await playlist.remove();
       res.json({ message: "Playlist removed" });
     } else {
@@ -114,4 +114,5 @@ module.exports = {
   addSongToPlaylist,
   createPlaylist,
   getPlaylists,
+  updatePlaylist,
 };

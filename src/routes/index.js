@@ -29,6 +29,17 @@ router.put(
   playlistController.addSongToPlaylist
 );
 
+router.put(
+  "/updatePlaylist/:playlistId",
+  authControllers.authenticateToken,
+  playlistController.updatePlaylist
+);
+router.delete(
+  "/deletePlayList:playlistId",
+  authControllers.authenticateToken,
+  playlistController.deletePlaylist
+);
+
 // router.post(
 //   "/createPlayList",
 //   authControllers.authenticateToken,
