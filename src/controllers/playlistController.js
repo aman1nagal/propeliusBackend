@@ -79,9 +79,8 @@ const updatePlaylist = async (req, res) => {
   const { name, description, songs } = req.body;
   try {
     const playlist = await Playlist.findById(playlistId);
-    console.log(playlist, playlistId, "playlist");
     // console.log(playlist, playlist.user.toString(), req.user, "playlist");
-    if (playlist && playlist.user.toString() === req.user) {
+    if (playlist && playlist.user.toString() === req.user._id) {
       playlist.name = name || playlist.name;
       playlist.description = description || playlist.description;
       playlist.songs = songs || playlist.songs;
