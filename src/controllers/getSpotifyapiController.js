@@ -1,29 +1,12 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-require("dotenv").config();
 const axios = require("axios");
 const fetch = require("node-fetch");
 const { Buffer } = require("buffer");
 
-const router = require("./src/routes");
-
 const app = express();
-mongoose
-  .connect(process.env.DB_STRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("connected to mongoDB"))
-  .catch((err) => console.log("something went wrong =>", err));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cors());
-
-const clientId = "917483ed2e6d45f39b7d6a51025a00fb"; // Replace with your Spotify Client ID
-const clientSecret = "1ac433288baf400ba56ce632a09a5ef9"; // Replace with your Spotify Client Secret
+const clientId = "917483ed2e6d45f39b7d6a51025a00fb";
+const clientSecret = "1ac433288baf400ba56ce632a09a5ef9";
 
 // Function to get Spotify token
 async function getSpotifyToken() {
@@ -89,8 +72,7 @@ app.get("/api/search", async (req, res) => {
   try {
     const token = await getSpotifyToken(); // Fetch Spotify token
     const searchResults = await searchSpotify(token, searchQuery); // Search Spotify with the token
-    console.log(searchResults, "searchResults");
-
+    console.log(searchResults,'searchResults')
     const tracks =
       searchResults?.tracks?.items?.map((item) => ({
         title: item?.name,
@@ -98,6 +80,7 @@ app.get("/api/search", async (req, res) => {
         artist: item?.artists?.map((it) => it.name)?.[0],
         album: item?.album?.name,
       })) || [];
+    console.log(tracks);
     res.status(200).json(tracks); // Send back search results
   } catch (error) {
     res
@@ -107,9 +90,7 @@ app.get("/api/search", async (req, res) => {
 });
 
 // Start the server
-
-app.use("/api/", router);
-
-app.listen(process.env.PORT, () =>
-  console.log("Server is running", process.env.PORT)
-);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
