@@ -35,9 +35,15 @@ router.put(
   playlistController.updatePlaylist
 );
 router.delete(
-  "/deletePlayList:playlistId",
+  "/deletePlayList/:playlistId",
   authControllers.authenticateToken,
   playlistController.deletePlaylist
+);
+
+router.delete(
+  "/playlists/:playlistId/songs/:songId",
+  authControllers.authenticateToken,
+  playlistController.deleteSongFromPlaylist
 );
 
 // router.post(
