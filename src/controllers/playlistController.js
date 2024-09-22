@@ -90,7 +90,7 @@ const updatePlaylist = async (req, res) => {
       res.status(404).json({ message: "Playlist not found or unauthorized" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error0000" });
   }
 };
 
@@ -117,18 +117,26 @@ const deleteSongFromPlaylist = async (req, res) => {
   const { playlistId, songId } = req.params;
   try {
     const playlist = await Playlist.findById(playlistId);
+    console.log(playlist);
 
     if (!playlist) {
       return res.status(404).json({ message: "Playlist not found" });
     }
-
-    // Remove the song by its ID
-    playlist.songs.id(songId).remove();
+    // Check if the song exists in the playlist
+    const songIndex = playlist.songs.findIndex(
+      (song) => song._id.toString() === songId
+    );
+    if (songIndex === -1) {
+      return res.status(404).json({ message: "Song not found in playlist" });
+    }
+    // Remove the song by its index
+    playlist.songs.splice(songIndex, 1);
 
     await playlist.save(); // Save the updated playlist after removal
 
     res.status(200).json({ message: "Song removed from playlist", playlist });
   } catch (error) {
+    console.error("Error deleting song from playlist:", error); // Add error logging for debugging
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
