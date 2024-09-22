@@ -96,19 +96,22 @@ const updatePlaylist = async (req, res) => {
 // Delete playlist
 const deletePlaylist = async (req, res) => {
   const { playlistId } = req.params;
+
   try {
     const playlist = await Playlist.findById(playlistId);
-    console.log(playlist, "playlist");
-    if (playlist && playlist.user.toString() == req.user._id) {
-      await playlist.remove();
-      res.json({ message: "Playlist removed" });
+
+    if (playlist && playlist.user.toString() === req.user._id.toString()) {
+      await Playlist.deleteOne({ _id: playlistId }); // Use deleteOne instead of remove
+      res.json({ message: "Playlist removed successfully" });
     } else {
       res.status(404).json({ message: "Playlist not found or unauthorized" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Error deleting playlist:", error); // Add error logging for debugging
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 const deleteSongFromPlaylist = async (req, res) => {
   const { playlistId, songId } = req.params;
   try {
