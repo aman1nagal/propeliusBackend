@@ -90,7 +90,7 @@ const updatePlaylist = async (req, res) => {
       res.status(404).json({ message: "Playlist not found or unauthorized" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error0000" });
+    res.status(500).json({ message: "Server error" });
   }
 };
 

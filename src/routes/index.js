@@ -34,6 +34,7 @@ router.put(
   authControllers.authenticateToken,
   playlistController.updatePlaylist
 );
+
 router.delete(
   "/deletePlayList/:playlistId",
   authControllers.authenticateToken,
@@ -41,7 +42,7 @@ router.delete(
 );
 
 router.delete(
-  "/playlists/:playlistId/songs/:songId",
+  "/deleteSongFromPlaylist/:playlistId/songs/:songId",
   authControllers.authenticateToken,
   playlistController.deleteSongFromPlaylist
 );
