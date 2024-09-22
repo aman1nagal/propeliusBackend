@@ -20,8 +20,13 @@ mongoose
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
-
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+  })
+);
 const clientId = "917483ed2e6d45f39b7d6a51025a00fb"; // Replace with your Spotify Client ID
 const clientSecret = "1ac433288baf400ba56ce632a09a5ef9"; // Replace with your Spotify Client Secret
 
